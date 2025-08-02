@@ -176,6 +176,11 @@ background: linear-gradient(135deg, #3a1c71, #d76d77, #ffaf7b);
  async function fetchIconAndName(url, isIOS, gameObj) {
   try {
     if (isIOS) {
+
+     return {
+        icon: gameObj.icon || "",
+        name: gameObj.name || "Untitled Game",
+      };
   const idMatch = url.match(/id(\d+)/);
   if (!idMatch) return { icon: "", name: "Untitled Game" };
 
@@ -228,42 +233,167 @@ async function renderGames(containerId, games, isIOS) {
 
 
   // Keep your original arrays here
-  const iosScratch = [
-  { url: "https://apps.apple.com/az/app/speedtrail3d-moto-bike-go/id6747968241" },
-  { url: "https://apps.apple.com/us/app/color-flow-unblock-puzzle/id6743620558" },
-  { url: "https://apps.apple.com/us/app/trouble-tail-kitty-prank-star/id6744395502" },
-  { url: "https://apps.apple.com/pk/app/tower-out-3d/id6737124824" },
-  { url: "https://apps.apple.com/us/app/sketch-logic-missing-piece/id6743832185" },
-  { url: "https://apps.apple.com/az/app/chefdom-cooking-kitchen-fever/id6746239425" },
-  { url: "https://apps.apple.com/pk/app/grocery-store-cashier-games/id6535686798" },
-  { url: "https://apps.apple.com/az/app/ultimate-tidy-up-3d/id6740073741" },
-  { url: "https://apps.apple.com/pk/app/santa-snake-worm-snake-game/id6737794432" },
-  { url: "https://apps.apple.com/pk/app/zappwing/id6745960441" },
-  { url: "https://apps.apple.com/pk/app/secret-agent-sniper-shooter/id6478278505" },
-  { url: "https://apps.apple.com/pk/app/sort-master-puzzle-match-game/id6482292565" },
-  { url: "https://apps.apple.com/pk/app/puzzle-paradise-triple-match/id6499511127" },
-  { url: "https://apps.apple.com/pk/app/bus-rush-mania-city-racer/id6504246159" },
-  { url: "https://apps.apple.com/pk/app/gt-gangster-super-fighter-game/id6450107834" },
-  { url: "https://apps.apple.com/pk/app/nuts-bolts-screw-challenges/id6478273667" },
-  { url: "https://apps.apple.com/pk/app/bite-blitz-nibble-duel/id6590620264" },
-  { url: "https://apps.apple.com/pk/app/grocery-chain-superhero/id6737834931" },
-  { url: "https://apps.apple.com/us/app/gun-master-weapon-craft-run/id6483211797" }
+const iosScratch = [
+  {
+    url: "https://apps.apple.com/az/app/speedtrail3d-moto-bike-go/id6747968241",
+    name: "SpeedTrail3D Moto Bike Go",
+    icon: "https://is1-ssl.mzstatic.com/image/thumb/Purple221/v4/42/cd/83/42cd8300-c327-577b-53d0-7ac2609b554c/AppIcon-1x_U007emarketing-0-8-0-85-220-0.png/230x0w.webp"
+  },
+  {
+    url: "https://apps.apple.com/us/app/color-flow-unblock-puzzle/id6743620558",
+    name: "Color Flow: Unblock Puzzle",
+    icon: "https://is5-ssl.mzstatic.com/image/thumb/Purple114/v4/16/16/81/161681e2-66a1-b40d-f3ce-c7c4e6711ca6/AppIcon-0-1x_U007emarketing-0-7-0-85-220.png/512x512bb.jpg"
+  },
+  {
+    url: "https://apps.apple.com/us/app/trouble-tail-kitty-prank-star/id6744395502",
+    name: "Trouble Tail: Kitty Prank Star",
+    icon: "https://is4-ssl.mzstatic.com/image/thumb/Purple114/v4/2f/17/cb/2f17cbca-dbc7-2445-4b9e-8ea303e9d0f7/AppIcon-0-1x_U007emarketing-0-7-0-85-220.png/512x512bb.jpg"
+  },
+  {
+    url: "https://apps.apple.com/pk/app/tower-out-3d/id6737124824",
+    name: "Tower Out 3D",
+    icon: "https://is5-ssl.mzstatic.com/image/thumb/Purple124/v4/ea/8e/6d/ea8e6d15-9f04-7a55-32ff-1a76ca477b8c/AppIcon-0-1x_U007emarketing-0-7-0-85-220.png/512x512bb.jpg"
+  },
+  {
+    url: "https://apps.apple.com/us/app/sketch-logic-missing-piece/id6743832185",
+    name: "Sketch Logic: Missing Piece",
+    icon: "https://is4-ssl.mzstatic.com/image/thumb/Purple114/v4/15/f2/ca/15f2ca13-3269-4c98-32a7-d818f302e0c9/AppIcon-0-1x_U007emarketing-0-7-0-85-220.png/512x512bb.jpg"
+  },
+  {
+    url: "https://apps.apple.com/az/app/chefdom-cooking-kitchen-fever/id6746239425",
+    name: "Chefdom: Cooking Kitchen Fever",
+    icon: "https://is3-ssl.mzstatic.com/image/thumb/Purple124/v4/cd/50/bd/cd50bd52-f1de-37e6-c37a-76d10ecf97ca/AppIcon-0-1x_U007emarketing-0-7-0-85-220.png/512x512bb.jpg"
+  },
+  {
+    url: "https://apps.apple.com/pk/app/grocery-store-cashier-games/id6535686798",
+    name: "Grocery Store Cashier Games",
+    icon: "https://is4-ssl.mzstatic.com/image/thumb/Purple114/v4/39/55/5b/39555b5c-1724-cdbd-6822-5af11ff107c7/AppIcon-0-1x_U007emarketing-0-7-0-85-220.png/512x512bb.jpg"
+  },
+  {
+    url: "https://apps.apple.com/az/app/ultimate-tidy-up-3d/id6740073741",
+    name: "Ultimate Tidy Up 3D",
+    icon: "https://is3-ssl.mzstatic.com/image/thumb/Purple114/v4/56/6a/c2/566ac263-91de-51a6-4fbc-3ab021be814b/AppIcon-0-1x_U007emarketing-0-7-0-85-220.png/512x512bb.jpg"
+  },
+  {
+    url: "https://apps.apple.com/pk/app/santa-snake-worm-snake-game/id6737794432",
+    name: "Santa Snake Worm Snake Game",
+    icon: "https://is4-ssl.mzstatic.com/image/thumb/Purple124/v4/01/d7/1c/01d71c7f-cbda-504a-bb68-e7c4c232d093/AppIcon-0-1x_U007emarketing-0-7-0-85-220.png/512x512bb.jpg"
+  },
+  {
+    url: "https://apps.apple.com/pk/app/zappwing/id6745960441",
+    name: "ZappWing",
+    icon: "https://is4-ssl.mzstatic.com/image/thumb/Purple114/v4/81/9b/c2/819bc2d4-3e50-63e7-33cd-cc4f82b2a482/AppIcon-0-1x_U007emarketing-0-7-0-85-220.png/512x512bb.jpg"
+  },
+  {
+    url: "https://apps.apple.com/pk/app/secret-agent-sniper-shooter/id6478278505",
+    name: "Secret Agent Sniper Shooter",
+    icon: "https://is1-ssl.mzstatic.com/image/thumb/Purple124/v4/cb/2c/f9/cb2cf9a9-7632-00b9-673d-f1bbfac98ce1/AppIcon-0-1x_U007emarketing-0-7-0-85-220.png/512x512bb.jpg"
+  },
+  {
+    url: "https://apps.apple.com/pk/app/sort-master-puzzle-match-game/id6482292565",
+    name: "Sort Master: Puzzle Match Game",
+    icon: "https://is3-ssl.mzstatic.com/image/thumb/Purple114/v4/d7/72/cc/d772cc3a-d0d5-951b-9a45-9de42091d53e/AppIcon-0-1x_U007emarketing-0-7-0-85-220.png/512x512bb.jpg"
+  },
+  {
+    url: "https://apps.apple.com/pk/app/puzzle-paradise-triple-match/id6499511127",
+    name: "Puzzle Paradise: Triple Match",
+    icon: "https://is1-ssl.mzstatic.com/image/thumb/Purple114/v4/f3/f0/72/f3f07246-f41f-cd27-74cd-8d131b6c7a5a/AppIcon-0-1x_U007emarketing-0-7-0-85-220.png/512x512bb.jpg"
+  },
+  {
+    url: "https://apps.apple.com/pk/app/bus-rush-mania-city-racer/id6504246159",
+    name: "Bus Rush Mania City Racer",
+    icon: "https://is2-ssl.mzstatic.com/image/thumb/Purple114/v4/33/d3/66/33d366f7-cb33-e4b7-e084-71eb272b47e1/AppIcon-0-1x_U007emarketing-0-7-0-85-220.png/512x512bb.jpg"
+  },
+  {
+    url: "https://apps.apple.com/pk/app/gt-gangster-super-fighter-game/id6450107834",
+    name: "GT Gangster Super Fighter Game",
+    icon: "https://is2-ssl.mzstatic.com/image/thumb/Purple114/v4/54/f1/ae/54f1aefb-940d-b5f1-3c7b-02283c5563a4/AppIcon-0-1x_U007emarketing-0-7-0-85-220.png/512x512bb.jpg"
+  },
+  {
+    url: "https://apps.apple.com/pk/app/nuts-bolts-screw-challenges/id6478273667",
+    name: "Nuts Bolts Screw Challenges",
+    icon: "https://is3-ssl.mzstatic.com/image/thumb/Purple124/v4/6c/47/12/6c4712eb-d8a3-4dca-5620-d61a0dfceae0/AppIcon-0-1x_U007emarketing-0-7-0-85-220.png/512x512bb.jpg"
+  },
+  {
+    url: "https://apps.apple.com/pk/app/bite-blitz-nibble-duel/id6590620264",
+    name: "Bite Blitz Nibble Duel",
+    icon: "https://is3-ssl.mzstatic.com/image/thumb/Purple124/v4/33/16/f3/3316f3a9-91b3-48d8-004a-d763df002253/AppIcon-0-1x_U007emarketing-0-7-0-85-220.png/512x512bb.jpg"
+  },
+  {
+    url: "https://apps.apple.com/pk/app/grocery-chain-superhero/id6737834931",
+    name: "Grocery Chain Superhero",
+    icon: "https://is4-ssl.mzstatic.com/image/thumb/Purple114/v4/b3/cc/13/b3cc130d-94dc-9130-02c3-157c5d99f02f/AppIcon-0-1x_U007emarketing-0-7-0-85-220.png/512x512bb.jpg"
+  },
+  {
+    url: "https://apps.apple.com/us/app/gun-master-weapon-craft-run/id6483211797",
+    name: "Gun Master: Weapon Craft Run",
+    icon: "https://is4-ssl.mzstatic.com/image/thumb/Purple114/v4/70/f3/6e/70f36e7f-19f9-4a97-3486-042e20a8652c/AppIcon-0-1x_U007emarketing-0-7-0-85-220.png/512x512bb.jpg"
+  }
 ];
 
 const iosUpdates = [
-  { url: "https://apps.apple.com/pk/app/gangster-fish-head-city-battle/id6469784800" },
-  { url: "https://apps.apple.com/pk/app/angry-cat-gangster-crime-prank/id6473621285" },
-  { url: "https://apps.apple.com/pk/app/gangster-city-banana-hero-man/id6466628400" },
-  { url: "https://apps.apple.com/pk/app/gt-gangster-vice-crime-mafia/id6448944410" },
-  { url: "https://apps.apple.com/pk/app/snake-hunter-sniper-3d/id6445883978" },
-  { url: "https://apps.apple.com/az/app/gorilla-mob-city-gangster/id6553989158" },
-  { url: "https://apps.apple.com/us/app/brainzotcrimy3d/id6744527913?uo=4" },
-  { url: "https://apps.apple.com/us/app/street-crime-gangster-gangs-3d/id6748323044" },
-  { url: "https://apps.apple.com/us/app/speedy-worm-challenges/id6745900041" },
-  { url: "https://apps.apple.com/us/app/pilot-journey-airplane-games/id6745401189" },
-  { url: "https://apps.apple.com/us/app/horror-escape-room-adventure/id6743632989" },
-  { url: "https://apps.apple.com/us/app/fps-shooting-commando-strike/id6475386121" }
+  {
+    url: "https://apps.apple.com/pk/app/gangster-fish-head-city-battle/id6469784800",
+    name: "Gangster Fish Head City Battle",
+    icon: "https://is3-ssl.mzstatic.com/image/thumb/Purple114/v4/48/af/f7/48aff78c-34e6-fd21-8e16-d93267f8f04b/AppIcon-0-1x_U007emarketing-0-7-0-85-220.png/512x512bb.jpg"
+  },
+  {
+    url: "https://apps.apple.com/pk/app/angry-cat-gangster-crime-prank/id6473621285",
+    name: "Angry Cat Gangster Crime Prank",
+    icon: "https://is3-ssl.mzstatic.com/image/thumb/Purple124/v4/5a/18/35/5a1835ca-3b26-b0a5-88e8-56719550e5a1/AppIcon-0-1x_U007emarketing-0-7-0-85-220.png/512x512bb.jpg"
+  },
+  {
+    url: "https://apps.apple.com/pk/app/gangster-city-banana-hero-man/id6466628400",
+    name: "Gangster City Banana Hero Man",
+    icon: "https://is1-ssl.mzstatic.com/image/thumb/Purple114/v4/17/4d/af/174daf54-61e7-b1ec-736d-bc8f108d252a/AppIcon-0-1x_U007emarketing-0-7-0-85-220.png/512x512bb.jpg"
+  },
+  {
+    url: "https://apps.apple.com/pk/app/gt-gangster-vice-crime-mafia/id6448944410",
+    name: "GT Gangster Vice Crime Mafia",
+    icon: "https://is2-ssl.mzstatic.com/image/thumb/Purple114/v4/25/14/87/251487f4-c213-0955-2f2a-57d8426c4d4e/AppIcon-0-1x_U007emarketing-0-7-0-85-220.png/512x512bb.jpg"
+  },
+  {
+    url: "https://apps.apple.com/pk/app/snake-hunter-sniper-3d/id6445883978",
+    name: "Snake Hunter Sniper 3D",
+    icon: "https://is2-ssl.mzstatic.com/image/thumb/Purple114/v4/da/65/d8/da65d841-3bfa-b82a-7d81-c6a4a98eae89/AppIcon-0-1x_U007emarketing-0-7-0-85-220.png/512x512bb.jpg"
+  },
+  {
+    url: "https://apps.apple.com/az/app/gorilla-mob-city-gangster/id6553989158",
+    name: "Gorilla Mob City Gangster",
+    icon: "https://is5-ssl.mzstatic.com/image/thumb/Purple114/v4/ce/84/0d/ce840d5a-8f7c-70f0-79ee-29994288b2d7/AppIcon-0-1x_U007emarketing-0-7-0-85-220.png/512x512bb.jpg"
+  },
+  {
+    url: "https://apps.apple.com/us/app/brainzotcrimy3d/id6744527913?uo=4",
+    name: "Brainzotcrimy3D",
+    icon: "https://is3-ssl.mzstatic.com/image/thumb/Purple114/v4/c9/44/0c/c9440c96-fac1-45c7-0f01-c9fa3905a66e/AppIcon-0-1x_U007emarketing-0-7-0-85-220.png/512x512bb.jpg"
+  },
+  {
+    url: "https://apps.apple.com/us/app/street-crime-gangster-gangs-3d/id6748323044",
+    name: "Street Crime Gangster Gangs 3D",
+    icon: "https://is2-ssl.mzstatic.com/image/thumb/Purple114/v4/31/2f/c0/312fc009-bae1-3a70-2a53-13c239140bca/AppIcon-0-1x_U007emarketing-0-7-0-85-220.png/512x512bb.jpg"
+  },
+  {
+    url: "https://apps.apple.com/us/app/speedy-worm-challenges/id6745900041",
+    name: "Speedy Worm Challenges",
+    icon: "https://is4-ssl.mzstatic.com/image/thumb/Purple114/v4/35/f3/2d/35f32d14-0ca3-47e3-62ac-cd1484929fba/AppIcon-0-1x_U007emarketing-0-7-0-85-220.png/512x512bb.jpg"
+  },
+  {
+    url: "https://apps.apple.com/us/app/pilot-journey-airplane-games/id6745401189",
+    name: "Pilot Journey: Airplane Games",
+    icon: "https://is4-ssl.mzstatic.com/image/thumb/Purple114/v4/0e/48/37/0e4837ab-8c32-e310-72ae-3c19a306ac9d/AppIcon-0-1x_U007emarketing-0-7-0-85-220.png/512x512bb.jpg"
+  },
+  {
+    url: "https://apps.apple.com/us/app/horror-escape-room-adventure/id6743632989",
+    name: "Horror Escape Room Adventure",
+    icon: "https://is5-ssl.mzstatic.com/image/thumb/Purple114/v4/4c/c1/6e/4cc16e41-799d-8ebf-88ef-8c9d47b1e062/AppIcon-0-1x_U007emarketing-0-7-0-85-220.png/512x512bb.jpg"
+  },
+  {
+    url: "https://apps.apple.com/us/app/fps-shooting-commando-strike/id6475386121",
+    name: "FPS Shooting Commando Strike",
+    icon: "https://is5-ssl.mzstatic.com/image/thumb/Purple114/v4/79/09/ab/7909abb6-0c7e-7e99-74f9-970f59af1444/AppIcon-0-1x_U007emarketing-0-7-0-85-220.png/512x512bb.jpg"
+  }
 ];
+
 
 const androidScratch = [
   {
