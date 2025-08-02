@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en"> 
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
@@ -176,17 +176,28 @@ background: linear-gradient(135deg, #3a1c71, #d76d77, #ffaf7b);
  async function fetchIconAndName(url, isIOS, gameObj) {
   try {
     if (isIOS) {
-      const idMatch = url.match(/id(\d+)/);
-      if (!idMatch) return { icon: "", name: "Untitled Game" };
-      const id = idMatch[1];
-      const res = await fetch(`https://itunes.apple.com/lookup?id=${id}`);
-      const data = await res.json();
-      const result = data.results[0];
-      return {
-        icon: result?.artworkUrl100 || "",
-        name: result?.trackName || "Untitled Game",
-      };
-    } else {
+  const idMatch = url.match(/id(\d+)/);
+  if (!idMatch) return { icon: "", name: "Untitled Game" };
+
+  const id = idMatch[1];
+
+  try {
+    const res = await fetch(`https://itunes.apple.com/lookup?id=${id}&country=pk`);
+    if (!res.ok) throw new Error("Fetch failed");
+
+    const data = await res.json();
+    const result = data.results?.[0];
+
+    return {
+      icon: result?.artworkUrl512 || result?.artworkUrl100 || "",
+      name: result?.trackName || "Untitled Game",
+    };
+  } catch (e) {
+    console.error("iOS lookup failed", e);
+    return { icon: "", name: "Untitled Game" };
+  }
+}
+ else {
       // Use provided values directly for Android
       return {
         icon: gameObj.icon || "",
@@ -305,4 +316,3 @@ const androidScratch = [
 
 </body>
 </html>
-
