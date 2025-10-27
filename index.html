@@ -234,17 +234,19 @@ async function renderGames(containerId, games, isIOS) {
     card.className = "game-card";
 
     // choose badge img based on url
-    let badgeImg = 'https://upload.wikimedia.org/wikipedia/commons/7/78/Google_Play_Store_badge_EN.svg'; // default Google Play
-    if (isIOS) {
-      badgeImg = 'https://developer.apple.com/assets/elements/badges/download-on-the-app-store.svg';
-    } else if (game.url && game.url.includes('galaxystore.samsung.com')) {
-      // Samsung / Galaxy Store: use text + Samsung logo (inline SVG) as fallback
-      badgeImg = ''; // we'll use inline HTML for Samsung below
-    }
-    else
-  {
-       badgeImg = ''; 
-  }
+let badgeImg = '';
+
+if (isIOS) {
+  // iOS App Store badge
+  badgeImg = 'https://developer.apple.com/assets/elements/badges/download-on-the-app-store.svg';
+} else if (game.url && game.url.includes('galaxystore.samsung.com')) {
+  // Samsung / Galaxy Store: use custom text + icon (handled below)
+  badgeImg = '';
+} else {
+  // Default: Google Play Store badge
+  badgeImg = 'https://upload.wikimedia.org/wikipedia/commons/7/78/Google_Play_Store_badge_EN.svg';
+}
+
 
     // build innerHTML; Samsung uses a custom button if badgeImg empty
     let storeButtonHtml = '';
@@ -352,11 +354,6 @@ const iosScratch = [
     name: "Puzzle Paradise: Triple Match",
     icon: "https://is1-ssl.mzstatic.com/image/thumb/Purple221/v4/10/f0/53/10f05367-00dc-d22a-5ee6-ff6801f3bd42/AppIcon-1x_U007emarketing-0-7-0-85-220-0.png/230x0w.webp"
   },
-   {
-    url: "https://apps.apple.com/xk/app/balloon-sort-color-bubble-game/id6740007647",
-    name: "Balloon Sort Color Bubble game",
-    icon: "https://is1-ssl.mzstatic.com/image/thumb/Purple211/v4/7c/e8/36/7ce8360d-4848-389a-65a9-61b793045873/AppIcon-0-0-1x_U007emarketing-0-8-0-85-220.png/230x0w.webp"
-  },
   {
     url: "https://apps.apple.com/pk/app/bus-rush-mania-city-racer/id6504246159",
     name: "Bus Rush Mania City Racer",
@@ -456,6 +453,11 @@ const iosUpdates = [
 
 const androidScratch = [
     {
+    name: "Merge Room Decor Games",
+    url: "https://play.google.com/store/apps/details?id=com.markgamingstudio.merge.room.decor.game",
+    icon: "https://play-lh.googleusercontent.com/yt_oKvi0eWHt3ELR3hJ4Q-OF6gM4gkKV5n-4Y3UB4pamFq14Om_e_5U5TJU796Uqv17S0RPne98SAh2l8XXo=w240-h480-rw"
+  },
+    {
     name: "Hr Manager Job Games",
     url: "https://play.google.com/store/apps/details?id=com.markgamingstudio.hr.job.finder.simulater.games",
     icon: "https://play-lh.googleusercontent.com/cmt5f3NYXdXdvV-586TbIqkSkgiRAwAiBeKQthlWckapg9BM94hULDqq3n-y1gS4DhVWlcOHaTh85gBvBb1g=w240-h480-rw"
@@ -546,7 +548,6 @@ const galaxyStore = [
 
 </body>
 </html>
-
 
 
 
